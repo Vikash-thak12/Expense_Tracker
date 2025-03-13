@@ -6,6 +6,7 @@ import path from "path"
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js"
 import incomeRoutes from "./routes/incomeRoute.js"
+import expenseRoutes from "./routes/expenseRoute.js"
 import { fileURLToPath } from 'url';
 
 const app = express(); 
@@ -29,6 +30,7 @@ connectDB();
 // Routes
 app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/income", incomeRoutes)
+app.use("/api/v1/expense", expenseRoutes)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
