@@ -5,6 +5,7 @@ import cors from "cors"
 import path from "path"
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js"
+import { fileURLToPath } from 'url';
 
 const app = express(); 
 const port = process.env.PORT || 3001; 
@@ -25,11 +26,13 @@ app.use(express.json());
 connectDB(); 
 
 // Routes
-// app.get("/", (req,res) => {
-//     res.send("Hello this is from server side")
-// })
-
 app.use("/api/v1/auth", authRoutes)
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "uploads" directory
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
 
 app.listen(port, () => {
     console.log(`Server is running on Port:${port}`)
