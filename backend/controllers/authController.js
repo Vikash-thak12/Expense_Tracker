@@ -31,7 +31,7 @@ export const registerUser = async (req, res) => {
             profileImageUrl
         })
 
-        user.save();  // saving the user in database
+        await user.save();  // saving the user in database
 
         res.status(201).json({
             message: "User Created Successfully",
