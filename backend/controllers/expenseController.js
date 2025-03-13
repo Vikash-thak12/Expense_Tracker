@@ -31,8 +31,8 @@ export const addExpense = async (req, res) => {
 export const getAllExpenses = async (req, res) => {
     const userId = req.user.id; 
     try {
-        const Expenses = await Expense.find({ userId }).sort({ date: -1}); 
-        res.json(Expenses)
+        const expenses = await Expense.find({ userId }).sort({ date: -1}); 
+        res.json(expenses)
     } catch (error) {
         return res.status(500).json({ message: "Error getting Expenses"})
     }
