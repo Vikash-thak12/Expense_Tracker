@@ -1,15 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { validateEmail, validatePassword } from "../../utils/helper"
 import axios from "axios"
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
+
+  // calling userContext 
+  const { UpdateUser }  = useContext(UserContext)
 
 
   const navigate = useNavigate();
@@ -39,6 +44,7 @@ const Login = () => {
       const { token, user } = response.data;
       if(token){
         localStorage.setItem("token", token); 
+        UpdateUser(user); 
         navigate("/dashboard")
       }
     } catch (error) {

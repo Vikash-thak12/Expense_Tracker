@@ -1,36 +1,67 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ProfilePhotoSelector from "../../components/Auth/ProfilePhotoSelector";
+import axios from "axios";
+import { UserContext } from "../../context/UserContext";
+import uploadImage from "../../utils/uploadImage.js";
 
 const Signup = () => {
   const [profilePic, setProfilePic] = useState(null)
-  const [fullname, setFullname] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("")
 
+  // calling the User Context 
+  const { UpdateUser } = useContext(UserContext)
+
 
   const [showPassword, setShowPassword] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
 
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    let profileImageUrl = ""
+    let profileImageUrl = "";
+    setError("");
 
+    try {
+      setIsUploading(true); // Start upload
 
-    // console.log("Name: ", fullname);
-    // console.log("Email: ", email);
-    // console.log("Password: ", password);
-    // alert("Hey you want to submit a signup form");
+      if (profilePic) {
+        const imageUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imageUploadRes.imageUrl || "";
+      }
 
+      setIsUploading(false); // End upload
 
+      const response = await axios.post("http://localhost:3000/api/v1/auth/register", {
+        fullName,
+        email,
+        password,
+        profileImageUrl
+      });
 
-    // SignUp API Call
-
+      const { token, user } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        UpdateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setIsUploading(false); // Reset state in case of error
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong");
+      }
+    }
   };
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -49,8 +80,8 @@ const Signup = () => {
             <input
               type="text"
               placeholder="Enter your name"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
@@ -90,13 +121,14 @@ const Signup = () => {
               </button>
             </div>
           </div>
-
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+            disabled={isUploading}
+            className={`w-full ${isUploading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"} text-white font-semibold py-3 rounded-lg transition`}
           >
-            Sign Up
+            {isUploading ? "Uploading..." : "Sign Up"}
           </button>
+
         </form>
 
         <p className="text-sm text-gray-500 text-center mt-4">

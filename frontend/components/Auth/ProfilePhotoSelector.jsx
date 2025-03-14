@@ -40,6 +40,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
                         />
                         <button
                             onClick={handleRemoveImage}
+                            type="button"
                             className="bg-red-400 p-2 rounded-full absolute -bottom-1 -right-1 z-10"
                         >
                             <LuTrash className="text-2xl text-white" />
@@ -50,6 +51,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
                         <LuUser className="text-4xl text-primary" />
                         <button
                             onClick={onChooseFile}
+                            type="button"
                             className="bg-primary p-2 rounded-full absolute -bottom-1 -right-1 z-10"
                         >
                             <LuUpload className="text-2xl text-white" />
