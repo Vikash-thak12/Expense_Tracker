@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { validateEmail, validatePassword } from "../../utils/helper"
+import axios from "axios"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,19 +18,36 @@ const Login = () => {
     e.preventDefault(); 
     console.log("Email: ", email)
     console.log("Password: ", password)
-    alert("Hey you want to submit a login form")
 
     if(!validateEmail(email)){
       setError("Please enter a valid Email")
       return
     }
 
-    if(!validatePassword(password)){
-      setError("Password must contain One Capital letter, one number and must be 8 char long")
-      return;
-    }
+    // if(!validatePassword(password)){
+    //   setError("Password must contain One Capital letter, one number and must be 8 char long")
+    //   return;
+    // }
 
     // API Call for login 
+    try {
+      const response = await axios.post("http://localhost:3000/api/v1/auth/login", {
+        email, 
+        password
+      })
+
+      const { token, user } = response.data;
+      if(token){
+        localStorage.setItem("token", token); 
+        navigate("/dashboard")
+      }
+    } catch (error) {
+      if(error.response && error.response.data.message) {
+        setError(error.response.data.message)
+      } else {
+        setError("Something went wrong", error)
+      }
+    }
   }
 
   return (
