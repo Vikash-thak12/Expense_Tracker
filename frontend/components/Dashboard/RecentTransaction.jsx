@@ -8,12 +8,13 @@ const RecentTransaction = ({
     onSeemore
 }) => {
     return (
-        <div className='card'>
+        <div className='card h-full '>
             <div className='flex items-center justify-between'>
                 <h5>Recent Transactions</h5>
                 <button className='card-btn' onClick={onSeemore}>See more <LuArrowRight className='text-base' /> </button>
             </div>
 
+            {/* <div className='mt-6 h-[380px] bg-green-100'> */}
             <div className='mt-6'>
                 {transaction?.slice(0, 5)?.map((item) => (
                     <TransactionInfoCard

@@ -13,6 +13,7 @@ import FinanceOverView from "../../components/Dashboard/FinanceOverView";
 import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions";
 import Last30daysExpenses from "../../components/Dashboard/Last30daysExpenses";
 import RecentIncomeWithChart from "../../components/Dashboard/RecentIncomeWithChart";
+import RecentIncome from "../../components/Dashboard/RecentIncome";
 
 const Home = () => {
   useUserAuth();
@@ -30,7 +31,7 @@ const Home = () => {
         "http://localhost:3000/api/v1/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        } 
       );
       console.log(response.data)
       if (response.data) {
@@ -56,7 +57,7 @@ const Home = () => {
     <>
       <DashboardLayout activeMenu="Dashboard">
         <div className="my-5 mx-auto">
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <InfoCard
               icon={<IoMdCard />}
               label="Total Balance"
@@ -78,7 +79,7 @@ const Home = () => {
               color="bg-red-500"
             />
 
-          </div> */}
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
             <RecentTransaction
@@ -100,14 +101,19 @@ const Home = () => {
             />
 
             {/* this one is for showing the chart */}
-            {/* <Last30daysExpenses
+            <Last30daysExpenses
               data={dashboardData?.last30DaysExpenses?.transactions || 0}
-            /> */}
+            />
 
 
             <RecentIncomeWithChart
               data={dashboardData?.last60DaysIncome?.transactions || 0}
               totalIncome={dashboardData?.totalIncome || 0}
+            />
+
+            <RecentIncome
+              transactions={dashboardData?.last60DaysIncome?.transactions || 0}
+              onSeeMore={() => navigate("/income")}
             />
           </div>
 
