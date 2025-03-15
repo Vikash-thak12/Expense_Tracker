@@ -1,8 +1,8 @@
 export const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 
 export const validatePassword = (password) => {
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -17,6 +17,21 @@ export const addThousandsSeparator = (num) => {
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return fractionalPart
-      ? `${formattedInteger}.${fractionalPart}`
-      : formattedInteger;
+    ? `${formattedInteger}.${fractionalPart}`
+    : formattedInteger;
 };
+
+
+export const prepareExpenseBarChartData = (data = []) => {
+  let chartData;
+  {
+    data && (
+      chartData = data.map((item) => ({
+        category: item?.category,
+        amount: item?.amount
+      }))
+    )
+  }
+
+  return chartData;
+}

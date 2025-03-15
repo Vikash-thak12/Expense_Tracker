@@ -10,6 +10,8 @@ import { IoMdCard } from "react-icons/io"
 import InfoCard from "../../components/Cards/InfoCard";
 import RecentTransaction from "../../components/Dashboard/RecentTransaction";
 import FinanceOverView from "../../components/Dashboard/FinanceOverView";
+import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions";
+import Last30daysExpenses from "../../components/Dashboard/Last30daysExpenses";
 
 const Home = () => {
   useUserAuth();
@@ -82,14 +84,27 @@ const Home = () => {
               transaction={dashboardData?.recentTransactions}  // will give array 
               onSeemore={() => navigate("/expense")}
             />
+
+
+            <FinanceOverView
+              totalBalance={dashboardData?.totalBalance || 0}
+              totalIncome={dashboardData?.totalIncome || 0}
+              totalExpense={dashboardData?.totalExpense || 0}
+            />
+
+
+            <ExpenseTransactions
+              transactions={dashboardData?.last30DaysExpenses?.transactions || 0}
+              onSeeMore={() => navigate("/expense")}
+            />
+
+            {/* this one is for showing the chart */}
+            <Last30daysExpenses
+              data={dashboardData?.last30DaysExpenses?.transactions || 0}
+            />
           </div>
 
 
-          <FinanceOverView
-            totalBalance={dashboardData?.totalBalance || 0}
-            totalIncome={dashboardData?.totalIncome || 0}
-            totalExpense={dashboardData?.totalExpense || 0}
-          />
         </div>
       </DashboardLayout>
     </>
