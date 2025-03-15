@@ -20,9 +20,9 @@ const CustomBarChart = ({ data }) => {
         if(active && payload && payload.length){
             return (
                 <div className='bg-white shadow-md rounded-md p-2 border border-gray-300'>
-                    <p className='text-sm font-semibold text-purple-800 mb-1'>{payload[0].payload.category}</p>
-                    <p className='text-xs text-gray-600'>
-                        Amount: <span className='text-gray-900 text-sm font-medium'>Rs. {payload[0].payload.amount}</span>
+                    <p className='text-sm font-semibold text-purple-800 mb-1'>{payload[0].payload.category || payload[0].payload.source}</p>
+                    <p className='text-xs text-gray-600 font-semibold'>
+                        Amount: <span className='text-gray-900 text-xs'>Rs. {payload[0].payload.amount}</span>
                     </p>
                 </div>
             )

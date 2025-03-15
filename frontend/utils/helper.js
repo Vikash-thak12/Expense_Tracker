@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -34,4 +36,15 @@ export const prepareExpenseBarChartData = (data = []) => {
   }
 
   return chartData;
+}
+
+export const prepareIncomeBarchartData = (data = []) => {
+  const sortedData = [...data].sort((a,b) => new Date(a.date) - new Date(b.date)); 
+  const chartedData = sortedData.map((item) => ({
+    month: moment(item?.date).format("Do MMM YYYY"), 
+    amount: item?.amount, 
+    source: item?.source
+  }))
+
+  return chartedData; 
 }
