@@ -1,25 +1,31 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
-export const UserContext = createContext(); 
+export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null); 
+    // Initialize state with localStorage data
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
-    // function to Update the user  
+    // Function to update the user and store it in localStorage
     const UpdateUser = (userData) => {
-        setUser(userData); 
-    }
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); // Store user in localStorage
+    };
 
-    // function to remove user (e.g. Logout)
+    // Function to remove the user (e.g., Logout)
     const ClearUser = () => {
-        setUser(null); 
-    }
+        setUser(null);
+        localStorage.removeItem("user"); // Remove user from localStorage
+    };
 
-    return(
-        <UserContext.Provider value={{ user, UpdateUser, ClearUser}}>
+    return (
+        <UserContext.Provider value={{ user, UpdateUser, ClearUser }}>
             {children}
         </UserContext.Provider>
-    )
-}
+    );
+};
 
 export default UserProvider;
