@@ -6,6 +6,7 @@ import ProfilePhotoSelector from "../../components/Auth/ProfilePhotoSelector";
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
 import uploadImage from "../../utils/uploadImage.js";
+import { API_BASE_URL } from "../../utils/apiPath.js";
 
 const Signup = () => {
   const [profilePic, setProfilePic] = useState(null)
@@ -39,7 +40,7 @@ const Signup = () => {
 
       setIsUploading(false); // End upload
 
-      const response = await axios.post("http://localhost:3000/api/v1/auth/register", {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/auth/register`, {
         fullName,
         email,
         password,

@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import { API_BASE_URL } from "../utils/apiPath";
 
 export const useUserAuth = () => {
     const {user, UpdateUser, ClearUser} = useContext(UserContext); 
@@ -14,7 +15,7 @@ export const useUserAuth = () => {
         const fetchUserInfo = async () => {
             try {
                 const token = localStorage.getItem("token")
-                const response = await axios.get("http://localhost:3000/api/v1/auth/getuser", {
+                const response = await axios.get(`${API_BASE_URL}/api/v1/auth/getuser`, {
                         headers: { Authorization: `Bearer ${token}` }
                 }); 
                 // console.log("API Response:", response.data);

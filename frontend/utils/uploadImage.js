@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "./apiPath";
 
 const uploadImage = async (imageFile) => {
     const formData = new FormData(); 
@@ -6,7 +7,7 @@ const uploadImage = async (imageFile) => {
     formData.append('image', imageFile); 
 
     try {
-        const response = await axios.post("http://localhost:3000/api/v1/auth/upload-image", formData, {
+        const response = await axios.post(`${API_BASE_URL}/api/v1/auth/upload-image`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', 
             }

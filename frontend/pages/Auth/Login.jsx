@@ -5,6 +5,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { validateEmail, validatePassword } from "../../utils/helper"
 import axios from "axios"
 import { UserContext } from "../../context/UserContext";
+import { API_BASE_URL } from "../../utils/apiPath";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ const Login = () => {
 
     // API Call for login 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/auth/login", {
+      const response = await axios.post(`${API_BASE_URL}/api/v1/auth/login`, {
         email, 
         password
       })
