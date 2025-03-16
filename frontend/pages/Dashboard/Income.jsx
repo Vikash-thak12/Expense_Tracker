@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/Dashboard/DashboardLayout'
 import IncomeOverView from '../../components/Income/IncomeOverView'
 import axios from 'axios'
-import { LuCross } from 'react-icons/lu'
+import { LuCode, LuCross } from 'react-icons/lu'
 import Modal from '../../components/Income/Modal'
 import AddIncomeForm from '../../components/Income/AddIncomeForm'
 import toast from 'react-hot-toast'
+import IncomeList from '../../components/Income/IncomeList'
+import DeleteAlert from '../../components/Income/DeleteAlert'
 
 const Income = () => {
   const [incomedata, setIncomedata] = useState([])
   const [loading, setLoading] = useState(false)
-  // const [openDeleteAlert, setOpenDeleteAlert] = useState({
-  //   show: false,
-  //   data: null
-  // })
+  const [openDeleteAlert, setOpenDeleteAlert] = useState({
+    show: false,
+    data: null
+  })
+
 
   const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false)
 
@@ -80,6 +83,35 @@ const Income = () => {
 
   }
 
+  // Delete income
+  const deleteIncome = async (id) => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.delete(`http://localhost:3000/api/v1/income/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      setOpenDeleteAlert({ show: false, id: null })
+      toast.success("Income deleted Successfully")
+      fetchIncomeDetails()
+    } catch (error) {
+      console.log("Error while deltein", error.response?.data?.message || error.message)
+    }
+  }
+
+  // Download Handler
+  const handleDownload = async () => {
+    alert("You want to download")
+    // try {
+    //   const token = localStorage.getItem("token")
+    //   await axios.get("http://localhost:3000/api/v1/income/downloadexcel", {
+    //     headers: { Authorization: `Bearer ${token}` }
+    //   })
+    // } catch (error) {
+    //   console.log("Error while downloading the income data", error)
+    // }
+  }
+
   useEffect(() => {
     fetchIncomeDetails();
   }, [])
@@ -93,6 +125,12 @@ const Income = () => {
               onAddIncome={() => setOpenAddIncomeModal(true)}
             />
           </div>
+
+          <IncomeList
+            transactions={incomedata}
+            onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+            onDownload={handleDownload}
+          />
         </div>
 
         <Modal
@@ -103,14 +141,21 @@ const Income = () => {
           {/* <div>Parent Modal</div> */}
           <AddIncomeForm onAddIncome={handleAddIncome} />
         </Modal>
-        {/* {
-          openAddIncomeModal && (
-            <div className='bg-black absolute top-[50%] bottom-[50%] w-[300px] h-[300px]'>
-              <h1 className='text-white'>Hello this is vikash Thakur</h1>
-              <LuCross className='text-white text-xl absolute top-[50%] right-[50%] cursor-pointer' onClick={() => setOpenAddIncomeModal(false)} />
-            </div>
-          )
-        } */}
+
+
+        {/* Modal for showing the delete functionality */}
+        <Modal
+          isOpen={openDeleteAlert.show}
+          onClose={() => setOpenDeleteAlert({ show: false, data: null })}
+          title="Delete Income"
+        >
+          <DeleteAlert
+            content={"Are you sure you want to delete this Income"}
+            onDelete={() => deleteIncome(openDeleteAlert.data)}
+          />
+        </Modal>
+
+
       </div>
     </DashboardLayout>
   )
