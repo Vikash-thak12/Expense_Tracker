@@ -101,15 +101,25 @@ const Income = () => {
 
   // Download Handler
   const handleDownload = async () => {
-    alert("You want to download")
-    // try {
-    //   const token = localStorage.getItem("token")
-    //   await axios.get("http://localhost:3000/api/v1/income/downloadexcel", {
-    //     headers: { Authorization: `Bearer ${token}` }
-    //   })
-    // } catch (error) {
-    //   console.log("Error while downloading the income data", error)
-    // }
+    try {
+      const token = localStorage.getItem("token")
+      const response = await axios.get("http://localhost:3000/api/v1/income/downloadexcel", {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: 'blob' // Important for downloading files
+      })
+
+      // Create a link element, use it to download the file
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'income_details.xlsx') // or whatever file name you want
+      document.body.appendChild(link)
+      link.click()
+      link.parentNode.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.log("Error while downloading the income details", error)
+    }
   }
 
   useEffect(() => {
