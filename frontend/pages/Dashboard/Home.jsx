@@ -14,6 +14,7 @@ import ExpenseTransactions from "../../components/Dashboard/ExpenseTransactions"
 import Last30daysExpenses from "../../components/Dashboard/Last30daysExpenses";
 import RecentIncomeWithChart from "../../components/Dashboard/RecentIncomeWithChart";
 import RecentIncome from "../../components/Dashboard/RecentIncome";
+import { API_BASE_URL } from "../../utils/apiPath";
 
 const Home = () => {
   useUserAuth();
@@ -28,7 +29,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:3000/api/v1/dashboard",
+        `${API_BASE_URL}/api/v1/dashboard`,
         {
           headers: { Authorization: `Bearer ${token}` },
         } 

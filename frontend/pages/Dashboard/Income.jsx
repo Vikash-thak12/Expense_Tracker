@@ -8,6 +8,7 @@ import AddIncomeForm from '../../components/Income/AddIncomeForm'
 import toast from 'react-hot-toast'
 import IncomeList from '../../components/Income/IncomeList'
 import DeleteAlert from '../../components/Income/DeleteAlert'
+import { API_BASE_URL } from '../../utils/apiPath'
 
 const Income = () => {
   const [incomedata, setIncomedata] = useState([])
@@ -27,7 +28,7 @@ const Income = () => {
       setLoading(true);
 
       const token = localStorage.getItem("token")
-      const response = await axios.get("http://localhost:3000/api/v1/income/get", {
+      const response = await axios.get(`${API_BASE_URL}/api/v1/income/get`, {
         headers: { Authorization: `Bearer ${token}` }
       })
 
@@ -62,7 +63,7 @@ const Income = () => {
       }
 
       const token = localStorage.getItem("token")
-      await axios.post("http://localhost:3000/api/v1/income/add", {
+      await axios.post(`${API_BASE_URL}/api/v1/income/add`, {
         icon,
         source,
         amount,
@@ -87,7 +88,7 @@ const Income = () => {
   const deleteIncome = async (id) => {
     try {
       const token = localStorage.getItem("token")
-      await axios.delete(`http://localhost:3000/api/v1/income/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/v1/income/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
 
@@ -103,7 +104,7 @@ const Income = () => {
   const handleDownload = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.get("http://localhost:3000/api/v1/income/downloadexcel", {
+      const response = await axios.get(`${API_BASE_URL}/api/v1/income/downloadexcel`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob' // Important for downloading files
       })

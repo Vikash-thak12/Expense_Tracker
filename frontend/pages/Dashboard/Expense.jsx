@@ -7,6 +7,7 @@ import ExpenseList from "../../components/Expense/ExpenseList"
 import AddExpenseForm from "../../components/Expense/AddExpenseForm"
 import Modal from "../../components/Income/Modal"
 import DeleteAlert from "../../components/Income/DeleteAlert"
+import { API_BASE_URL } from "../../utils/apiPath"
 
 
 const Expense = () => {
@@ -28,7 +29,7 @@ const Expense = () => {
       setLoading(true);
 
       const token = localStorage.getItem("token")
-      const response = await axios.get("http://localhost:3000/api/v1/expense/get", {
+      const response = await axios.get(`${API_BASE_URL}/api/v1/expense/get`, {
         headers: { Authorization: `Bearer ${token}` }
       })
 
@@ -63,7 +64,7 @@ const Expense = () => {
       }
 
       const token = localStorage.getItem("token")
-      await axios.post("http://localhost:3000/api/v1/expense/add", {
+      await axios.post(`${API_BASE_URL}/api/v1/expense/add`, {
         icon,
         category,
         amount,
@@ -87,7 +88,7 @@ const Expense = () => {
   const deleteExpense = async (id) => {
     try {
       const token = localStorage.getItem("token")
-      await axios.delete(`http://localhost:3000/api/v1/expense/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/v1/expense/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
 
@@ -104,7 +105,7 @@ const Expense = () => {
   const handleDownload = async () => {
     try {
       const token = localStorage.getItem("token")
-      const response = await axios.get("http://localhost:3000/api/v1/expense/downloadexcel", {
+      const response = await axios.get(`${API_BASE_URL}/api/v1/expense/downloadexcel`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob' // Important for downloading files
       })
