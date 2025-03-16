@@ -6,6 +6,7 @@ import ExpenseOverView from "../../components/Expense/ExpenseOverView"
 import ExpenseList from "../../components/Expense/ExpenseList"
 import AddExpenseForm from "../../components/Expense/AddExpenseForm"
 import Modal from "../../components/Income/Modal"
+import DeleteAlert from "../../components/Income/DeleteAlert"
 
 
 const Expense = () => {
@@ -82,6 +83,22 @@ const Expense = () => {
     }
   }
 
+  // delete Expense
+  const deleteExpense = async (id) => {
+    try {
+      const token = localStorage.getItem("token")
+      await axios.delete(`http://localhost:3000/api/v1/expense/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+
+      setOpenDeleteAlert({ show: false, id: null })
+      toast.success("Expense deleted Successfully")
+      fetchExpenseDetails()
+    } catch (error) {
+      console.log("Error while deleting", error.response?.data?.message || error.message)
+    }
+  }
+
 
   // handle download 
   const handleDownload = () => {}
@@ -118,16 +135,16 @@ const Expense = () => {
 
 
         {/* Modal for showing the delete functionality */}
-        {/* <Modal
+        <Modal
           isOpen={openDeleteAlert.show}
           onClose={() => setOpenDeleteAlert({ show: false, data: null })}
           title="Delete Income"
         >
           <DeleteAlert
-            content={"Are you sure you want to delete this Income"}
-            onDelete={() => deleteIncome(openDeleteAlert.data)}
+            content={"Are you sure you want to delete"}
+            onDelete={() => deleteExpense(openDeleteAlert.data)}
           />
-        </Modal> */}
+        </Modal>
       </div>
     </DashboardLayout>
   )
