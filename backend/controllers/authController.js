@@ -3,7 +3,7 @@ import { userModel as User } from "../models/User.js";
 import bcrypt from "bcryptjs";
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '12h' });
 }
 
 // Registering the user

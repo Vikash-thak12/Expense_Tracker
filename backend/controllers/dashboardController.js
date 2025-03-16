@@ -50,39 +50,39 @@ export const getDashboardData = async (req, res) => {
 
         // fetch last 5 transactions (income + expense)
         const lastTransactions = [
-            ...(await Income.find({ userId }).sort({ date: -1}).limit(5)).map(
-                (txn) => ({
-                    ...txn.toObject(), 
-                    type: "income",
-                })
-            ), 
-            ...(await Expense.find({ userId}).sort({ date: -1}).limit(5)).map(
-                (txn) => ({
-                    ...txn.toObject(), 
-                    type: 'expense'
-                })
-            )
-        ].sort((a,b) => b.date - a.date); // Sort latest first 
+            ...(await Income.find({ userId })
+                .sort({ date: -1 })
+                .limit(5)
+                .lean()) // Converts to plain JS objects
+                .map(txn => ({ ...txn, type: "income" })),
+
+            ...(await Expense.find({ userId })
+                .sort({ date: -1 })
+                .limit(5)
+                .lean())
+                .map(txn => ({ ...txn, type: "expense" }))
+        ].sort((a, b) => new Date(b.date) - new Date(a.date)); // Ensure correct sorting
+
 
 
         // final response 
         res.json({
-            totalBalance: (totalIncome[0]?.total || 0) - (totalExpense[0]?.total || 0), 
-            totalIncome: (totalIncome[0]?.total || 0), 
-            totalExpense: (totalExpense[0]?.total || 0), 
+            totalBalance: (totalIncome[0]?.total || 0) - (totalExpense[0]?.total || 0),
+            totalIncome: (totalIncome[0]?.total || 0),
+            totalExpense: (totalExpense[0]?.total || 0),
             last30DaysExpenses: {
                 total: expenselast30days,
                 transactions: getlast30daysExpenseTransactions
-            }, 
+            },
             last60DaysIncome: {
-                total: incomeLast60days, 
+                total: incomeLast60days,
                 transactions: getlast60daysincomeTransactions
-            }, 
+            },
             recentTransactions: lastTransactions,
         })
 
 
     } catch (error) {
-        res.status(500).json({ message: "Server Error in getting Dashboard data", error})
+        res.status(500).json({ message: "Server Error in getting Dashboard data", error })
     }
 }
