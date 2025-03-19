@@ -11,8 +11,8 @@ const TransactionInfoCard = ({
     ondelete
 }) => {
     return (
-        <div className='group relative flex items-center gap-4 mt-2 p-3 rounded-lg hover:bg-gray-200/50'>
-            <div className='w-12 h-12 flex items-center justify-center text-xl text-gray-800 bg-gray-100 rounded-full'>
+        <div className='group relative flex items-center gap-4 mt-2 py-3 rounded-lg hover:bg-gray-200/50'>
+            <div className='w-10 h-10 flex items-center justify-center text-xl text-gray-800 bg-gray-200 rounded-full'>
                 {icon ? (
                     <img src={icon} alt={title} className='w-6 h-6' />
                 ): (
@@ -25,7 +25,7 @@ const TransactionInfoCard = ({
                     <p className='text-xs text-gray-400 mt-1'>{date}</p>
                 </div>
 
-                <div className='flex gap-5'>
+                <div className='flex gap-2 md:gap-5'>
                     {!hideDeleteBtn && (
                         <button onClick={ondelete} className='text-gray-400 hover:text-red-500 cursor-pointer'>
                             <LuTrash2 />
