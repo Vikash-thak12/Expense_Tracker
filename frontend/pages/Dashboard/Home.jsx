@@ -32,7 +32,7 @@ const Home = () => {
         `${API_BASE_URL}/api/v1/dashboard`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        } 
+        }
       );
       console.log(response.data)
       if (response.data) {
@@ -89,33 +89,49 @@ const Home = () => {
             />
 
 
-            <FinanceOverView
-              totalBalance={dashboardData?.totalBalance || 0}
-              totalIncome={dashboardData?.totalIncome || 0}
-              totalExpense={dashboardData?.totalExpense || 0}
-            />
+            {
+              (dashboardData?.totalBalance || dashboardData?.totalExpense || dashboardData?.totalIncome) > 0 && (
+                <FinanceOverView
+                  totalBalance={dashboardData?.totalBalance || 0}
+                  totalIncome={dashboardData?.totalIncome || 0}
+                  totalExpense={dashboardData?.totalExpense || 0}
+                />
+              )
+            }
 
 
-            <ExpenseTransactions
-              transactions={dashboardData?.last30DaysExpenses?.transactions || 0}
-              onSeeMore={() => navigate("/expense")}
-            />
 
-            {/* this one is for showing the chart */}
-            <Last30daysExpenses
-              data={dashboardData?.last30DaysExpenses?.transactions || 0}
-            />
+            {
+              dashboardData?.last30DaysExpenses?.total > 0 && (
+                <>
+                  <ExpenseTransactions
+                    transactions={dashboardData?.last30DaysExpenses?.transactions || 0}
+                    onSeeMore={() => navigate("/expense")}
+                  />
 
+                  {/* this one is for showing the chart */}
+                  <Last30daysExpenses
+                    data={dashboardData?.last30DaysExpenses?.transactions || 0}
+                  />
+                </>
+              )
+            }
 
-            <RecentIncomeWithChart
-              data={dashboardData?.last60DaysIncome?.transactions || 0}
-              totalIncome={dashboardData?.totalIncome || 0}
-            />
+            {
+              dashboardData?.last60DaysIncome?.total > 0 && (
+                <>
+                  <RecentIncomeWithChart
+                    data={dashboardData?.last60DaysIncome?.transactions || 0}
+                    totalIncome={dashboardData?.totalIncome || 0}
+                  />
 
-            <RecentIncome
-              transactions={dashboardData?.last60DaysIncome?.transactions || 0}
-              onSeeMore={() => navigate("/income")}
-            />
+                  <RecentIncome
+                    transactions={dashboardData?.last60DaysIncome?.transactions || 0}
+                    onSeeMore={() => navigate("/income")}
+                  />
+                </>
+              )
+            }
           </div>
 
 

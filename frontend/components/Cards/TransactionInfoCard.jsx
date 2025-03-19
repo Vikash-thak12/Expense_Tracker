@@ -11,7 +11,7 @@ const TransactionInfoCard = ({
     ondelete
 }) => {
     return (
-        <div className='group relative flex items-center gap-4 mt-2 py-3 rounded-lg hover:bg-gray-200/50'>
+        <div className='group relative flex items-center gap-4 mt-2 py-3 rounded-lg hover:bg-gray-200/50 md:px-4'>
             <div className='w-10 h-10 flex items-center justify-center text-xl text-gray-800 bg-gray-200 rounded-full'>
                 {icon ? (
                     <img src={icon} alt={title} className='w-6 h-6' />
@@ -33,7 +33,7 @@ const TransactionInfoCard = ({
                     )}
 
                     <div className={`flex items-center gap-2 px-2 py-1 rounded-md w-[120px] text-center ${type == 'income' ? 'bg-green-50 text-green-500': 'bg-red-50 text-red-500'}`}>
-                        <h6>{type == 'income' ? "+" : "-"} ${amount}</h6>
+                        <h6>{type == 'income' ? "+" : "-"} Rs. {amount}</h6>
                         {type == "income" ? <LuTrendingUp /> : <LuTrendingDown />}
                     </div>
                 </div>

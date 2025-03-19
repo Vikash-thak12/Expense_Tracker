@@ -74,7 +74,7 @@ const Expense = () => {
       })
 
       setOpenAddExpenseModal(false)
-      toast.success("Income Added Successfully")
+      toast.success("Expense Added Successfully")
       fetchExpenseDetails();
 
     } catch (error) {
