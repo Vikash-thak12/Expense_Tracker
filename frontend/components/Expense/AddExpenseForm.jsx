@@ -55,7 +55,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
             </div>
 
             <button type='button' onClick={() => onAddExpense(expense)} className='bg-green-500 px-4 py-2 rounded-md text-center mx-auto cursor-pointer'>
-                Add Income
+                Add Expense
             </button>
         </div>
     )

@@ -6,12 +6,14 @@ import { validateEmail, validatePassword } from "../../utils/helper"
 import axios from "axios"
 import { UserContext } from "../../context/UserContext";
 import { API_BASE_URL } from "../../utils/apiPath";
+import Loader from "../../components/Loader";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
 
   // calling userContext 
@@ -22,6 +24,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault(); 
+    // setLoading(true)
     console.log("Email: ", email)
     console.log("Password: ", password)
 
@@ -30,13 +33,9 @@ const Login = () => {
       return
     }
 
-    // if(!validatePassword(password)){
-    //   setError("Password must contain One Capital letter, one number and must be 8 char long")
-    //   return;
-    // }
-
     // API Call for login 
     try {
+      setLoading(true)
       const response = await axios.post(`${API_BASE_URL}/api/v1/auth/login`, {
         email, 
         password
@@ -54,6 +53,8 @@ const Login = () => {
       } else {
         setError("Something went wrong", error)
       }
+    } finally{
+      setLoading(false)
     }
   }
 
@@ -103,9 +104,9 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
           >
-            Sign In
+            {loading ? <Loader /> : "Sign In"}
           </button>
         </form>
 
