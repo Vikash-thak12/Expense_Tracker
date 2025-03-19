@@ -4,6 +4,11 @@ import { LuImage, LuX } from "react-icons/lu"
 
 const EmojiPickerPopup = ({ icon, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const handleEmojiSelect = (emoji) => {
+        onSelect(emoji?.imageUrl || "");
+        setIsOpen(false);
+    };
+
     return (
         <div className='flex flex-col md:flex-row items-start gap-5 mb-6'>
             <div
@@ -23,17 +28,16 @@ const EmojiPickerPopup = ({ icon, onSelect }) => {
                 <p>{icon ? "Change Icon" : "Pick Icon"}</p>
             </div>
 
-
             {
                 isOpen && (
                     <div className='relative'>
-                        <button onClick={() => setIsOpen(false)} className='w-8 h-8 flex items-center justify-center bg-gray-700 text-white rounded-full mb-1 cursor-pointer absolute -top-7 right-12 z-50'>
+                        {/* <button onClick={() => setIsOpen(false)} className='w-8 h-8 flex items-center justify-center bg-gray-700 text-white rounded-full mb-1 cursor-pointer absolute -top-7 right-12 z-50'>
                             <LuX />
-                        </button>
+                        </button> */}
 
                         <EmojiPicker
                             open={isOpen}
-                            onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
+                            onEmojiClick={handleEmojiSelect}
                         />
                     </div>
                 )
