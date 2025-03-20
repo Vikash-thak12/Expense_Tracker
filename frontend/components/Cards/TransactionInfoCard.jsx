@@ -1,5 +1,6 @@
 import React from 'react'
 import { LuTrash2, LuTrendingDown, LuTrendingUp, LuUtensils } from 'react-icons/lu'
+import { addThousandsSeparator } from '../../utils/helper'
 
 const TransactionInfoCard = ({
     title,
@@ -10,6 +11,7 @@ const TransactionInfoCard = ({
     hideDeleteBtn,
     ondelete
 }) => {
+    const detailAmount = addThousandsSeparator(amount); 
     return (
         <div className='group relative flex items-center gap-4 mt-2 py-3 rounded-lg hover:bg-gray-200/50 md:px-4'>
             <div className='w-10 h-10 flex items-center justify-center text-xl text-gray-800 bg-gray-200 rounded-full'>
@@ -33,7 +35,7 @@ const TransactionInfoCard = ({
                     )}
 
                     <div className={`flex items-center gap-2 px-2 py-1 rounded-md w-[120px] text-center ${type == 'income' ? 'bg-green-50 text-green-500': 'bg-red-50 text-red-500'}`}>
-                        <h6>{type == 'income' ? "+" : "-"} Rs. {amount}</h6>
+                        <h6>{type == 'income' ? "+" : "-"} Rs. {detailAmount}</h6>
                         {type == "income" ? <LuTrendingUp /> : <LuTrendingDown />}
                     </div>
                 </div>

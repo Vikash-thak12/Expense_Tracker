@@ -24,6 +24,7 @@ export const addThousandsSeparator = (num) => {
 };
 
 
+
 export const prepareExpenseBarChartData = (data = []) => {
   let chartData;
   {
