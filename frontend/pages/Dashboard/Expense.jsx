@@ -33,7 +33,7 @@ const Expense = () => {
         headers: { Authorization: `Bearer ${token}` }
       })
 
-      console.log("Income data", response.data)
+      console.log("Expense data", response.data)
       if (response.data) {
         setExpensedata(response.data)
       }
@@ -47,42 +47,44 @@ const Expense = () => {
   // add Expense data
   const handleAddExpense = async (expense) => {
     const { icon, category, amount, date } = expense;
+  
     try {
-
       if (!category.trim()) {
-        toast.error("Source is required")
+        toast.error("Source is required");
         return;
       }
       if (!amount || isNaN(amount) || Number(amount) < 0) {
-        toast.error("Amount should be valid number and greater than 0")
+        toast.error("Amount should be a valid number and greater than 0");
         return;
       }
-
+  
       if (!date) {
-        toast.error("Date is required")
+        toast.error("Date is required");
         return;
       }
-
-      const token = localStorage.getItem("token")
-      await axios.post(`${API_BASE_URL}/api/v1/expense/add`, {
+  
+      const token = localStorage.getItem("token");
+      const response = await axios.post(`${API_BASE_URL}/api/v1/expense/add`, {
         icon,
         category,
-        amount,
+        amount: Number(amount),
         date
       }, {
         headers: { Authorization: `Bearer ${token}` }
-      })
-
-      setOpenAddExpenseModal(false)
-      toast.success("Expense Added Successfully")
+      });
+  
+      console.log(response);
+      toast.success("Expense Added Successfully");
+      setOpenAddExpenseModal(false);
       fetchExpenseDetails();
-
+  
     } catch (error) {
-      console.log("Error while adding Expense",
-        error.response?.data?.message || error.message
-      )
+      const errorMsg = error.response?.data?.message || error.message;
+      toast.error(errorMsg);  // <-- this was missing!
+      console.log("Error while adding Expense:", errorMsg);
     }
-  }
+  };
+  
 
   // delete Expense
   const deleteExpense = async (id) => {
